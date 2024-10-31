@@ -1,10 +1,10 @@
 <div class="navbar bg-base-300">
 	<div class="flex-1">
-		<href class="btn btn-ghost text-xl">Fastpaste</href>
+		<a href='/' class="btn btn-ghost text-xl">Fastpaste</a>
 	</div>
 	<div class="flex-none">
 		<ul class="menu menu-horizontal px-1">
-			<li><href>History</href></li>
+			<li><a href='/history'>History</a></li>
 		</ul>
 	</div>
 </div>
