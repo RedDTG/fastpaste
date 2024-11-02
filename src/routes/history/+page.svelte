@@ -31,7 +31,7 @@
 		<tbody>
 			{#each files as file, index}
 				<tr class="hover cursor-pointer" onclick={() => handleRowClick(file.title)}>
-					<td class="flex justify-center">{index}</td>
+					<td class="flex justify-center">{index+1}</td>
 					<td class="font-bold">{file.title}</td>
 					<td class="flex justify-center gap-3">
 						<!-- svelte-ignore a11y_consider_explicit_label -->

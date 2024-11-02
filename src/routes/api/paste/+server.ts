@@ -48,8 +48,14 @@ export async function POST({ request }) {
     // Define the path where the file will be saved
     const filePath = path.join(dirPath, `${fileTitle.replaceAll(' ', '_').toLowerCase()}.txt`);
 
-    // Write content to the file
-    fs.writeFileSync(filePath, content, 'utf8');
+    if (fs.existsSync(filePath)) {
+        return new Response(JSON.stringify({ success: false, reason: 'A paste with this title already exist'}), { status: 400 })
+    }
+    else {
+        // Write content to the file
+        fs.writeFileSync(filePath, content, 'utf8');
+    
+        return new Response(JSON.stringify({ success: true }), { status: 200 });
+    }
 
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
 }
