@@ -8,7 +8,7 @@
 	</div>
 	<div class="flex-none">
 		<!-- svelte-ignore a11y_consider_explicit_label -->
-		<button class="btn btn-ghost" onclick={() => goto('/history')}
+		<button class="btn btn-ghost" onclick={() => goto('/pasted')}
 			><svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"

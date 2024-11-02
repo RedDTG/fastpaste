@@ -51,7 +51,7 @@
 		fadeOut = false;
 		setTimeout(() => {
 			fadeOut = true;
-			setTimeout(() => (showAlert = false), 500); // Délai pour la transition fade-out
+			setTimeout(() => (showErrorAlert = false), 500); // Délai pour la transition fade-out
 		}, 2000); // Délai avant le début de fade-out
 	}
 </script>
