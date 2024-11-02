@@ -5,7 +5,7 @@
     async function savePaste() {
         if (pasteContent) {
             try {
-                const response = await fetch('/save-paste', {
+                const response = await fetch('/api/paste', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

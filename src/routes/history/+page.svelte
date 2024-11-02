@@ -8,7 +8,7 @@
 	let files = [];
 
 	onMount(async () => {
-		const response = await fetch('/get-pasted'); 
+		const response = await fetch('/api/paste'); 
 		files = await response.json();
 	});
 
@@ -18,7 +18,7 @@
 
 </script>
 
-<div class="overflow-x-auto">
+<div class="overflow-x-auto mt-3">
 	<table class="table">
 		<!-- head -->
 		<thead>
@@ -30,7 +30,7 @@
 		</thead>
 		<tbody>
 			{#each files as file, index}
-				<tr class="hover cursor-pointer" onclick={handleRowClick(file.title)}>
+				<tr class="hover cursor-pointer" onclick={() => handleRowClick(file.title)}>
 					<td class="flex justify-center">{index}</td>
 					<td class="font-bold">{file.title}</td>
 					<td class="flex justify-center gap-3">
