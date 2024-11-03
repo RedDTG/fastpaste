@@ -14,7 +14,7 @@ export async function GET(): Promise<Response> {
     const folderPath: string = path.join(process.cwd(), 'data/pastes');
 
     // Read files in the folder and map their data
-    const files: FileData[] = fs.readdirSync(folderPath).map((filename) => {
+    const files: FileData[] = fs.readdirSync(folderPath).map((filename: string) => {
         // Get the full path and read content of each file
         const filePath = path.join(folderPath, filename);
         const content = fs.readFileSync(filePath, 'utf-8');
