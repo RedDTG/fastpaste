@@ -1,9 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { title } from 'process';
 	import { onMount } from 'svelte';
+	import Modal from '$lib/modal.svelte';
+    import { alertStore } from '$lib/alertStore';
 
 	let files: Array<{ title: string; content: string }> = [];
+	let currentFileTitle: string = '';
+
+	// Variable to control the alert visibility
+	let showAlert: boolean = false;
+	let alertRef: any;
+	let alert: { content: string; status: 'error' | 'success'; reason?: string };
+
 
 	onMount(async () => {
 		const response = await fetch('/api/paste');
@@ -14,8 +22,8 @@
 		goto(`/paste/${title}`, { noScroll: true });
 	}
 
-	async function deletePaste(event: Event, title: string) {
-		event.stopPropagation();
+	async function deletePaste(title: string) {
+		console.log(showAlert)
 		try {
 			const response = await fetch(`/api/paste/${title}`, {
 				method: 'DELETE'
@@ -24,19 +32,23 @@
 			if (response.ok) {
 				console.log('Paste deleted successfully');
 				files = files.filter((f) => f.title !== title);
-				// toggleAlert();
+				alertStore.showAlert('File deleted successfully!', 'success', null);
 			} else {
 				console.error('Failed to delete paste');
-				// responseJson = await response.json();
-				// toggleErrorAlert();
+				
 			}
 		} catch (error) {
 			console.error('Error:', error);
 		}
+		console.log(showAlert)
 	}
+
 </script>
 
 <div class="max-h-[90vh] overflow-y-scroll pt-3">
+	<!-- {#if showAlert}
+		<Alert bind:this={alertRef} content={alert.content} status={alert.status} reason={alert.reason} />
+	{/if} -->
 	<table class="table">
 		<!-- head -->
 		<thead>
@@ -48,6 +60,12 @@
 		</thead>
 		<tbody>
 			{#each files as file, index}
+				<Modal
+					id="deleteModal"
+					title="Are you sure ?"
+					content="You are about to delete the file : <b>{currentFileTitle}</b>.<br /><br />Are you sure you want to proceed ?"
+					button={{ style: 'error', text: 'Delete', action: () => deletePaste(currentFileTitle) }}
+				></Modal>
 				<tr class="hover cursor-pointer" onclick={() => handleRowClick(file.title)}>
 					<td class="flex justify-center">{index + 1}</td>
 					<td class="font-bold">{file.title}</td>
@@ -72,7 +90,11 @@
 						<!-- svelte-ignore a11y_consider_explicit_label -->
 						<button
 							class="btn btn-square btn-error btn-sm"
-							onclick={(event) => deletePaste(event, file.title)}
+							onclick={(event) => {
+								currentFileTitle = file.title; // Store the title of the file to delete
+								event.stopPropagation();
+								deleteModal.showModal()
+							}}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
